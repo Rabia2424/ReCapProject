@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class InMemoryCarDal : ICarDal
+    public class InMemoryCarDal
     {
         List<Car> _cars;
         public InMemoryCarDal()
