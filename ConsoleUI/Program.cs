@@ -8,12 +8,12 @@ internal class Program
     private static void Main(string[] args)
     {
         CarManager carManager = new CarManager(new EfCarDal());
-        foreach (var car in carManager.GetAll())
-        {
-            Console.WriteLine(car.BrandId + " " + car.ColorId + " " + car.CarName + " " + car.ModelYear + " " + car.DailyPrice);
-        }
+        //foreach (var car in carManager.GetAll())
+        //{
+        //    Console.WriteLine(car.BrandId + " " + car.ColorId + " " + car.CarName + " " + car.ModelYear + " " + car.DailyPrice);
+        //}
 
-        Console.WriteLine("\n");
+        //Console.WriteLine("\n");
 
 
         foreach (var car in carManager.GetCarsByBrandId(1))
@@ -24,21 +24,21 @@ internal class Program
         Console.WriteLine("\n");
 
 
-        carManager.Add(new Car
+        carManager.Update(new Car
         {
-            BrandId = 2,
-            ColorId = 3,
+            CarId = 1,  
+            BrandId = 1,
+            ColorId = 1,
             CarName = "Volvo",
-            ModelYear = 2022,
-            DailyPrice = 12000,
+            ModelYear = 2021,
+            DailyPrice = 15000,
             Description = "description"
         });
-        Console.WriteLine("Car Added!");
+        Console.WriteLine("Car Updated!");
 
-
-        foreach (var car in carManager.GetAll())
+        foreach (var car in carManager.GetCarDetails())
         {
-            Console.WriteLine(car.BrandId + " " + car.ColorId + " " + car.CarName + " " + car.ModelYear + " " + car.DailyPrice);
+            Console.WriteLine(car.CarName + " " + car.BrandName + " " + car.ColorName + " " + car.DailyPrice);
         }
     }
 }
