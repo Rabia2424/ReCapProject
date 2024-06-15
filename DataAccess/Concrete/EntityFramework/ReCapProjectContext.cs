@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=RABIA\SQLEXPRESS; Database=ReCap; TrustServerCertificate=True; integrated security=true");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-1GEKNF6; Database=ReCap; TrustServerCertificate=True; integrated security=true");
         }
 
         public DbSet<Car> Cars { get; set; }

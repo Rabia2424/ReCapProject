@@ -7,26 +7,38 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        // This area is important bcs in this way I added InMemoryCars to database
+
+        //InMemoryCarDal InMemory = new InMemoryCarDal();
+
         CarManager carManager = new CarManager(new EfCarDal());
-        //foreach (var car in carManager.GetAll())
+        //foreach (var entity in InMemory.GetAll())
         //{
-        //    Console.WriteLine(car.BrandId + " " + car.ColorId + " " + car.CarName + " " + car.ModelYear + " " + car.DailyPrice);
+        //   carManager.Add(entity);
         //}
 
-        //Console.WriteLine("\n");
 
 
-        foreach (var car in carManager.GetCarsByBrandId(1))
+
+        foreach (var car in carManager.GetAll().Data)
         {
-            Console.WriteLine(car.CarId + " " + car.ModelYear + " " + car.DailyPrice);
+            Console.WriteLine(car.BrandId + " " + car.ColorId + " " + car.CarName + " " + car.ModelYear + " " + car.DailyPrice);
         }
 
         Console.WriteLine("\n");
 
 
+        //foreach (var car in carManager.GetCarsByBrandId(1))
+        //{
+        //    Console.WriteLine(car.CarId + " " + car.ModelYear + " " + car.DailyPrice);
+        //}
+
+        //Console.WriteLine("\n");
+
+
         carManager.Update(new Car
         {
-            CarId = 1,  
+            CarId = 1,
             BrandId = 1,
             ColorId = 1,
             CarName = "Volvo",
@@ -36,7 +48,7 @@ internal class Program
         });
         Console.WriteLine("Car Updated!");
 
-        foreach (var car in carManager.GetCarDetails())
+        foreach (var car in carManager.GetCarDetails().Data)
         {
             Console.WriteLine(car.CarName + " " + car.BrandName + " " + car.ColorName + " " + car.DailyPrice);
         }
