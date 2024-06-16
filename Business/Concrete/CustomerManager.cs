@@ -33,5 +33,22 @@ namespace Business.Concrete
             }
           
         }
+
+        public IResult Delete(Customer customer)
+        {
+            _customerDal.Delete(customer);
+            return new SuccessResult();
+        }
+
+        public IDataResult<List<Customer>> GetAll()
+        {
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomerListed);
+        }
+
+        public IResult Update(Customer customer)
+        {
+            _customerDal.Update(customer);
+            return new SuccessResult(); 
+        }
     }
 }

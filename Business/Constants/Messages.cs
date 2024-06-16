@@ -24,5 +24,9 @@ namespace Business.Constants
         public static string CustomerNotAdded = "Customer not added!";
         public static string CarRentalAdded = "Car Rental added!";
         public static string CarRentalNotAdded = "Car Rental not added!";
+        public static string CustomerListed = "Customer listed successfully!";
+        public static string RentalListed = "Rental listed successfully!";
+        public static string RentalUpdated = "Rental updated successfully!";
+        public static string RentalDeleted = "Rental deleted successfully!";
     }
 }

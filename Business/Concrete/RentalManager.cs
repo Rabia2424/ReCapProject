@@ -25,6 +25,7 @@ namespace Business.Concrete
             var result = _rentalDal.GetAll(r => r.CarId == rental.CarId).SingleOrDefault(c => c.ReturnDate == null);
             if(result == null)
             {
+                rental.RentDate = DateTime.Now;
                 _rentalDal.Add(rental);
                 return new SuccessResult(Messages.CarRentalAdded);
             }
@@ -32,6 +33,23 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.CarRentalNotAdded);
             }
+        }
+
+        public IResult Delete(Rental rental)
+        {
+            _rentalDal.Delete(rental);
+            return new SuccessResult(Messages.RentalDeleted);
+        }
+
+        public IDataResult<List<Rental>> GetAll()
+        {
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(),Messages.RentalListed);
+        }
+
+        public IResult Update(Rental rental)
+        {
+            _rentalDal.Update(rental);
+            return new SuccessResult(Messages.RentalUpdated);
         }
     }
 }
