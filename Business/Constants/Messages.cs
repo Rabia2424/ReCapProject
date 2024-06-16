@@ -19,5 +19,10 @@ namespace Business.Constants
         public static string BrandNotDeleted = "Brand not deleted!";
         public static string BrandDeleted = "Brand deleted successfully!";
         public static string BrandUpdated = "Brand updated successfully!";
+        public static string UserListed = "User listed successfully!";
+        public static string CustomerAdded = "Customer added successfully!";
+        public static string CustomerNotAdded = "Customer not added!";
+        public static string CarRentalAdded = "Car Rental added!";
+        public static string CarRentalNotAdded = "Car Rental not added!";
     }
 }
