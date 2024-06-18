@@ -28,5 +28,6 @@ namespace Business.Constants
         public static string RentalListed = "Rental listed successfully!";
         public static string RentalUpdated = "Rental updated successfully!";
         public static string RentalDeleted = "Rental deleted successfully!";
+        public static string RentalNotDeleted = "Rental is empty!";
     }
 }

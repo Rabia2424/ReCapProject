@@ -92,6 +92,51 @@ internal class Program
         //}
 
 
+        //Add User
+
+        //UserManager userManager = new UserManager(new EfUserDal());
+        //List<User> users = new List<User>()
+        //{
+        //    new User{FirstName="Sena",LastName="Yıldız",Email="sena34@gmail.com",Password="Sena123456"},
+        //    new User{FirstName="Canberk",LastName="Sezgin",Email="canberk34@gmail.com",Password="Canberk123456"},
+        //    new User{FirstName="Ahmet",LastName="Sönmez",Email="ahmet34@gmail.com",Password="Ahmet123456"}
+        //};
+
+        //foreach(var user in users)
+        //{
+        //    userManager.Add(user);
+        //}
+
+        //Add Customer
+
+        //CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+        //List<Customer> customers = new List<Customer>()
+        //{
+        //    new Customer{UserId=1,CompanyName="Metro Travel"},
+        //    new Customer{UserId=2,CompanyName = "Kapadokya Turizm"}
+        //};
+
+        //foreach (var customer in customers)
+        //{
+        //    customerManager.Add(customer);
+        //}
+
+
+        //Delete Rental
+
+        //RentalManager rentalManager = new RentalManager(new EfRentalDal());
+        //var rental = rentalManager.GetRentalById(5).Data;
+        //var result = rentalManager.Delete(rental);
+
+        //if (result.Success)
+        //{
+        //    Console.WriteLine(result.Message);
+        //}
+        //else
+        //{
+        //    Console.WriteLine(result.Message);
+        //}
+
 
     }
 }
