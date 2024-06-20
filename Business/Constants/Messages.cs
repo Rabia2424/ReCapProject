@@ -9,7 +9,7 @@ namespace Business.Constants
     public static class Messages
     {
         public static string CarAdded = "Car added successfully!";
-        public static string CarNotAdded = "Car name length must be at least two letters and dailprice must be greater than zero...";
+        public static string CarNotAdded = "Car name length must be at least two letters...";
         public static string CarDeleted = "Car deleted successfully!";
         public static string CarUpdated = "Car updated successfully!";
         public static string CarListed = "Cars listed successfully!";
@@ -29,5 +29,8 @@ namespace Business.Constants
         public static string RentalUpdated = "Rental updated successfully!";
         public static string RentalDeleted = "Rental deleted successfully!";
         public static string RentalNotDeleted = "Rental is empty!";
+        public static string ContainsSpecialChar = "Password must contain special char!";
+        public static string ContainsBigLetter = "Password must contain big letter!";
+        public static string ContainsLetterAndDigit = "Password must contain letter and digit!";
     }
 }
