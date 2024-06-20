@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result);  
+            return BadRequest(result);
         }
 
         [HttpGet("getcarsbycolorid")]
@@ -53,7 +53,7 @@ namespace WebAPI.Controllers
         public IActionResult GetCarDetails()
         {
             var result = _carService.GetCarDetails();
-            if(result.Success)
+            if (result.Success)
             {
                 return Ok(result);
             }
@@ -64,7 +64,7 @@ namespace WebAPI.Controllers
         public IActionResult Add(Car car)
         {
             var result = _carService.Add(car);
-            if(result.Success)
+            if (result.Success)
             {
                 return Ok(result);
             }
