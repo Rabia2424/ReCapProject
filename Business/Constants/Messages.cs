@@ -32,5 +32,10 @@ namespace Business.Constants
         public static string ContainsSpecialChar = "Password must contain special char!";
         public static string ContainsBigLetter = "Password must contain big letter!";
         public static string ContainsLetterAndDigit = "Password must contain letter and digit!";
+        public static string CarImageNotFound = "Car Image not found!";
+        public static string CarImagesDeleted = "Car Image deleted successfully!";
+        public static string CarImagesNotDeleted = "An error occurred while deleting the image!";
+        public static string CarImagesAdded = "Car Image added successfully!";
+        public static string CarImageUpdated = "Car Image updated successfully!";
     }
 }
