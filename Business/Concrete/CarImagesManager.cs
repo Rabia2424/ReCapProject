@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -29,7 +30,9 @@ namespace Business.Concrete
                 return new ErrorResult("File is empty!");
             }
 
-            if (CheckIfCarImageLimit(image.CarId).Success)
+            IResult result = BusinessRules.Run(CheckIfCarImageLimit(image.CarId));
+
+            if (result == null)
             {
                 var filePath = Path.Combine("Uploads", "Images", Guid.NewGuid().ToString() + Path.GetExtension(file.FileName));
 
@@ -44,12 +47,14 @@ namespace Business.Concrete
 
                 return new SuccessResult(Messages.CarImagesAdded);
             }
-            return new ErrorResult();
+            return result;
         }
 
         public IDataResult<List<CarImages>> GetByCarId(int carId)
         {
-            if (CheckCarImages(carId).Success)
+            IResult result = BusinessRules.Run(CheckCarImages(carId));
+
+            if (result == null)
             {
                 return new SuccessDataResult<List<CarImages>>(_carImagesDal.GetAll(c=>c.CarId == carId));
             }
