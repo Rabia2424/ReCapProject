@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,5 +38,12 @@ namespace Business.Constants
         public static string CarImagesNotDeleted = "An error occurred while deleting the image!";
         public static string CarImagesAdded = "Car Image added successfully!";
         public static string CarImageUpdated = "Car Image updated successfully!";
+        public static string AccessTokenCreated = "Access token is created successfully!";
+        public static string UserNotFound = "User can not be found!";
+        public static string PasswordError = "Password is not verified!";
+        public static string SuccessfullLogin = "User login successfully!";
+        public static string UserRegistered = "User registered!";
+        public static string UserAlreadyExists = "User is already exists!";
+        public static string AuthorizationDenied = "Authorization denied!";
     }
 }

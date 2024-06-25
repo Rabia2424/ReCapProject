@@ -1,4 +1,5 @@
 ﻿using Business.Constants;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using FluentValidation;
 using System;
@@ -21,12 +22,12 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(u => u.Email).MaximumLength(30);
             RuleFor(u => u.Email).Must(ContainsDotCom);
 
-            RuleFor(u => u.Password).NotEmpty();
-            RuleFor(u => u.Password).MinimumLength(4);
-            RuleFor(u => u.Password).MaximumLength(20);
-            RuleFor(u => u.Password).Must(ContainsSpecialChar).WithMessage(Messages.ContainsSpecialChar);
-            RuleFor(u => u.Password).Must(ContainsBigLetter).WithMessage(Messages.ContainsBigLetter);
-            RuleFor(u => u.Password).Must(ContainsLetterAndDigit).WithMessage(Messages.ContainsLetterAndDigit);
+            //RuleFor(u => u.Password).NotEmpty();
+            //RuleFor(u => u.Password).MinimumLength(4);
+            //RuleFor(u => u.Password).MaximumLength(20);
+            //RuleFor(u => u.Password).Must(ContainsSpecialChar).WithMessage(Messages.ContainsSpecialChar);
+            //RuleFor(u => u.Password).Must(ContainsBigLetter).WithMessage(Messages.ContainsBigLetter);
+            //RuleFor(u => u.Password).Must(ContainsLetterAndDigit).WithMessage(Messages.ContainsLetterAndDigit);
         }
 
         private bool ContainsDotCom(string arg)
