@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,6 @@ namespace Business.Concrete
             var result = _rentalDal.GetAll(r => r.CarId == rental.CarId).SingleOrDefault(c => c.ReturnDate == null);
             if (result == null)
             {
-                rental.RentDate = DateTime.Now;
                 _rentalDal.Add(rental);
                 return new SuccessResult(Messages.CarRentalAdded);
             }
@@ -33,6 +34,30 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.CarRentalNotAdded);
             }
+        }
+
+        public IResult CheckRental(Rental rental)
+        {
+            var result = BusinessRules.Run(
+                CheckRentalCarId(rental.CarId),
+                CheckIfReturnDateIsBeforeRentDate(rental.RentDate, rental.ReturnDate),
+                CheckIfThisCarIsAlreadyRentedInSelectedDateRange(rental)
+                );
+            if(result != null)
+            {
+                return result;
+            }
+            return new SuccessResult(Messages.PaymentPageAvailable);
+        }
+
+        public IDataResult<Rental> CheckRentalCarId(int carId)
+        {
+            var result = _rentalDal.Get(r => r.CarId == carId && r.ReturnDate == null);
+            if (result != null)
+            {
+                return new ErrorDataResult<Rental>(Messages.CarIsNotAvailable);
+            }
+            return new SuccessDataResult<Rental>(Messages.CarIsAvailable);
         }
 
         public IResult Delete(Rental rental)
@@ -55,10 +80,54 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == rentalId));
         }
 
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
+        }
+
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.RentalUpdated);
+        }
+
+        private IResult CheckIfThisCarIsAlreadyRentedInSelectedDateRange(Rental rental)
+        {
+            var result = _rentalDal.Get(r => r.CarId == rental.CarId && r.CustomerId == rental.CustomerId);
+            if (result != null) {
+                if (result.RentDate.Date < rental.RentDate.Date
+                && result.ReturnDate != null
+                && ((DateTime)result.ReturnDate).Date < rental.RentDate.Date)
+                {
+                    return new SuccessResult();
+                }
+                return new ErrorResult(Messages.ThisCarIsAlreadyRentedInSelectedDateRange);
+            }
+            else { return new SuccessResult(); }
+            
+
+        }
+
+        private IResult CheckIfReturnDateIsBeforeRentDate(DateTime rentDate,DateTime? returnDate)
+        {
+            if(returnDate.HasValue)
+            {
+                if(((DateTime)returnDate).Date < rentDate.Date)
+                {
+                    return new ErrorResult(Messages.ReturnDateIsBeforeRentDate);
+                }
+            }
+            return new SuccessResult();
+        }
+
+        public IDataResult<List<Rental>> GetRentalByCarId(int carId)
+        {
+            var result = _rentalDal.GetAll(r => r.CarId == carId);
+            if (result.Any())
+            {
+                return new SuccessDataResult<List<Rental>>(result);
+            }
+            return new ErrorDataResult<List<Rental>>("There is no rental information");
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
@@ -64,6 +66,37 @@ namespace Business.Concrete
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
+        }
+
+        public IDataResult<User> UpdatePassword(UserForPasswordDto userForPasswordDto, string password)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            var result = _userService.GetById(userForPasswordDto.UserId);
+            if (!result.Success)
+            {
+                return new ErrorDataResult<User>(result.Message);
+            }
+
+            if (!HashingHelper.VerifyPasswordHash(userForPasswordDto.OldPassword,
+                result.Data.PasswordHash, result.Data.PasswordSalt))
+            {
+                return new ErrorDataResult<User>(Messages.PasswordError);
+            }
+
+            if(!userForPasswordDto.NewPassword.Equals(userForPasswordDto.RepeatNewPassword))
+            {
+                return new ErrorDataResult<User>("Repeat password is wrong");
+            }
+
+            var updatedUser = result.Data;
+            updatedUser.PasswordHash = passwordHash;
+            updatedUser.PasswordSalt = passwordSalt;    
+
+            _userService.Update(updatedUser);
+
+            return new SuccessDataResult<User>(updatedUser, Messages.UserPasswordUpdated);
         }
 
         public IResult UserExistsControlForRegister(string email)

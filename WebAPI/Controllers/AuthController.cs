@@ -10,10 +10,13 @@ namespace WebAPI.Controllers
     public class AuthController : ControllerBase
     {
         IAuthService _authService;
-
-        public AuthController(IAuthService authService)
+        //ICartService _cartService;
+        IUserService _userService;
+        public AuthController(IAuthService authService, IUserService userService)
         {
             _authService = authService;
+            //_cartService = cartService;
+            _userService = userService;
         }
 
         [HttpPost("login")]
@@ -26,9 +29,9 @@ namespace WebAPI.Controllers
             }
 
             var result = _authService.CreateAccessToken(userToLogin.Data);
-            if(result.Success)
+            if (result.Success)
             {
-                return Ok(result.Data); 
+                return Ok(result);
             }
             return BadRequest(result.Message);
         }
@@ -44,12 +47,34 @@ namespace WebAPI.Controllers
             }
 
             var userToRegister = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            //var findUser = _userService.GetByEmail(userForRegisterDto.Email);
+
             var result = _authService.CreateAccessToken(userToRegister.Data);
             if (result.Success)
             {
-                return Ok(result.Data);
+                //_cartService.InitializeCart(userToRegister.Data.Id);
+                return Ok(result);
             }
             return BadRequest(result.Message);
+        }
+
+        [HttpPost("updatepassword")]
+        public IActionResult UpdatePassword(UserForPasswordDto userForPasswordDto)
+        {
+            var resultForUpdatePassword = _authService.UpdatePassword(userForPasswordDto, userForPasswordDto.NewPassword);
+            if(resultForUpdatePassword.Success)
+            {
+                var result = _authService.CreateAccessToken(resultForUpdatePassword.Data);
+                if(result.Success)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
+            }
+            else
+            {
+                return BadRequest(resultForUpdatePassword);
+            }
         }
     }
 }

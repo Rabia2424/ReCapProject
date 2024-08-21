@@ -12,6 +12,11 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Business.AutoMappers;
+using Microsoft.Extensions.FileProviders;
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +28,16 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
 //builder.Services.AddSingleton<ICarService, CarManager>();
 //builder.Services.AddSingleton<ICarDal, EfCarDal>();
+builder.Services.AddCors();
+
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(CustomerProfile));
 
 builder.Services.AddDependencyResolvers(new ICoreModule[]
 {
@@ -62,6 +74,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureCustomExceptionMiddleware();
+
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

@@ -34,14 +34,14 @@ namespace Business.Concrete
 
             if (result == null)
             {
-                var filePath = Path.Combine("Uploads", "Images", Guid.NewGuid().ToString() + Path.GetExtension(file.FileName));
+                var filePath = Path.Combine("wwwroot", "Uploads", "Images", Guid.NewGuid().ToString() + Path.GetExtension(file.FileName));
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     file.CopyTo(stream);
                 }
 
-                image.ImagePath = filePath;
+                image.ImagePath = filePath.Replace("wwwroot", ""); ;
                 image.Date = DateTime.Now;
                 _carImagesDal.Add(image);
 
@@ -133,7 +133,7 @@ namespace Business.Concrete
 
             if (file != null && file.Length > 0)
             {
-                var newFilePath = Path.Combine("Uploads", "Images", Guid.NewGuid().ToString() + Path.GetExtension(file.FileName));
+                var newFilePath = Path.Combine("wwwroot", "Uploads", "Images", Guid.NewGuid().ToString() + Path.GetExtension(file.FileName));
 
                 if (File.Exists(imageToUpdate.ImagePath))
                 {
@@ -146,7 +146,7 @@ namespace Business.Concrete
                     file.CopyTo(stream);
                 }
 
-                imageToUpdate.ImagePath = newFilePath;
+                imageToUpdate.ImagePath = newFilePath.Replace("wwwroot", "");
                 imageToUpdate.Date = DateTime.Now;
                 _carImagesDal.Update(imageToUpdate);
 

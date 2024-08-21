@@ -15,6 +15,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        [SecuredOperation("car.add,admin")]
+        //[SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("Business.Abstract.ICarService.GetAll")]
         public IResult Add(Car car)
@@ -54,7 +55,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarListed);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<CarDetailDto, bool>> filter = null)
         {
             if (DateTime.Now.Hour == 23)
             {
@@ -63,14 +64,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        public IDataResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.BrandId == brandId));
         }
 
-        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        public IDataResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.ColorId == colorId));
         }
 
         public IResult Update(Car car)
@@ -90,6 +91,31 @@ namespace Business.Concrete
             Add(car);
 
             return null;
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarByBrandAndColor(int brandId, int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarByBrandAndColor(brandId, colorId));
+        }
+
+        public IDataResult<Car> GetByCarId(int carId)
+        {
+            var result = _carDal.Get(c=>c.CarId == carId);
+            if(result == null)
+            {
+                return new ErrorDataResult<Car>("");
+            }
+            return new SuccessDataResult<Car>(result);
+        }
+
+        public IDataResult<CarDetailDto> GetDetailsByCarId(int carId)
+        {
+            var result = _carDal.GetCarDetailsWithImages(c=>c.CarId==carId);   
+            if (!result.Any())
+            {
+                return new ErrorDataResult<CarDetailDto>();
+            }
+            return new SuccessDataResult<CarDetailDto>(result.FirstOrDefault());
         }
     }
 }

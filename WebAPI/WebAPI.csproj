@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="C:\Users\Rabia\.nuget\packages\microsoft.net.compilers\1.0.0\build\..\tools\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
@@ -17,6 +23,18 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Uploads\Images\20098b54-697c-4cea-8139-89d5d8abeded.jpg" />
+    <None Include="wwwroot\Uploads\Images\22f3274a-4107-4f2d-b3d3-be983d06b446.jpg" />
+    <None Include="wwwroot\Uploads\Images\2d14879b-2909-43d0-b221-0a4a3220cb64.jpg" />
+    <None Include="wwwroot\Uploads\Images\41382016-c47a-4e5d-8d43-5e2d95911bc0.jpg" />
+    <None Include="wwwroot\Uploads\Images\95c9931b-d1a8-46b2-b00e-167660bbb8fb.jpg" />
+    <None Include="wwwroot\Uploads\Images\9d5baf00-4162-40d5-be38-69af8674b293.jpg" />
+    <None Include="wwwroot\Uploads\Images\cda547a6-1d48-420e-af57-27fcec98547e.jpg" />
+    <None Include="wwwroot\Uploads\Images\d99c2f6f-f5e3-45e5-a34f-a08aab8cc059.jpg" />
+    <None Include="wwwroot\Uploads\Images\DefaultImage.jpg" />
   </ItemGroup>
 
 </Project>

@@ -45,5 +45,15 @@ namespace Business.Constants
         public static string UserRegistered = "User registered!";
         public static string UserAlreadyExists = "User is already exists!";
         public static string AuthorizationDenied = "Authorization denied!";
+        public static string CarIsNotAvailable = "Car is not available to rent!";
+        public static string CarIsAvailable = "Car is available to rent!";
+        public static string ThisCarIsAlreadyRentedInSelectedDateRange = "This car is already rented in selected date range!";
+        public static string ReturnDateIsBeforeRentDate = "Return date can not be before rent date!";
+        public static string PaymentPageAvailable = "You are going to shopping cart page!";
+        public static string ThisCardIsAlreadySaved = "This cart is already saved for this customer!";
+        public static string PaymentSuccessfull = "Payment completed successfully!";
+        public static string PaymentDenied = "Payment denied!";
+        public static string UserPasswordUpdated = "User password updated successfully!";
+        public static string UserUpdated = "User updated successfully!";
     }
 }

@@ -28,6 +28,19 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getrentaldetails")]
+        public IActionResult GetRentalDetails()
+        {
+            Thread.Sleep(1000);
+
+            var result = _rentalService.GetRentalDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetRentalById(int id)
         {
@@ -65,6 +78,39 @@ namespace WebAPI.Controllers
         public IActionResult Delete(Rental rental)
         {
             var result = _rentalService.Delete(rental);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("checkrentalcarid")]
+        public IActionResult CheckRentalCarId(int carId)
+        {
+            var result = _rentalService.CheckRentalCarId(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);  
+        }
+
+        [HttpPost("checkrental")]
+        public IActionResult CheckRental(Rental rental)
+        {
+            var result = _rentalService.CheckRental(rental);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getrentalbycarid")]
+        public IActionResult GetRentalByCarId(int carId)
+        {
+            var result = _rentalService.GetRentalByCarId(carId);
             if (result.Success)
             {
                 return Ok(result);
