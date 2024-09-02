@@ -23,6 +23,7 @@ namespace Business.Concrete
             _paymentDal = paymentDal;
         }
 
+        [ValidationAspect(typeof(PaymentValidator))]
         public IResult Add(Payment payment)
         {
             _paymentDal.Add(payment);

@@ -39,6 +39,16 @@ namespace Business.Concrete
           
         }
 
+        public IDataResult<Customer> GetCustomerByUserId(int userId)
+        {
+            var customer = _customerDal.Get(c => c.UserId == userId);
+            if(customer != null)
+            {
+                return new SuccessDataResult<Customer>(customer);
+            }
+            return new ErrorDataResult<Customer>(Messages.CustomerNotFound);
+        }
+
         public IResult Delete(CustomerDto customerDto)
         {
             var customer = _mapper.Map<Customer>(customerDto);

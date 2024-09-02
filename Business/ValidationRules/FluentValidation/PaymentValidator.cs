@@ -13,6 +13,7 @@ namespace Business.ValidationRules.FluentValidation
         public PaymentValidator()
         {
             RuleFor(p => p.FullName).NotEmpty();
+            RuleFor(p => p.FullName).MinimumLength(5);
             RuleFor(p => p.CardNumber).NotEmpty();
             RuleFor(p => p.CardNumber).Length(16);
             RuleFor(p => p.CardNumber).Must(CheckIfContainsOnlyDigits).WithMessage("Card number must consist of digits only.");

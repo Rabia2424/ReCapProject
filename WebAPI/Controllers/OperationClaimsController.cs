@@ -1,6 +1,6 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
-using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +8,30 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class OperationClaimsController : ControllerBase
     {
-        ICustomerService _customerService;
+        IOperationClaimService _operationClaimService;
 
-        public CustomersController(ICustomerService customerService)
+        public OperationClaimsController(IOperationClaimService operationClaimService)
         {
-            _customerService = customerService;
+            _operationClaimService = operationClaimService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _customerService.GetAll();
+            var result = _operationClaimService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
+        {
+            var result = _operationClaimService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -29,9 +40,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CustomerDto customerDto)
+        public IActionResult Add(OperationClaim operationClaim)
         {
-            var result = _customerService.Add(customerDto);
+            var result = _operationClaimService.Add(operationClaim);
             if (result.Success)
             {
                 return Ok(result);
@@ -39,21 +50,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcustomerbyuserid")]
-        public IActionResult GetCustomerByUserId(int userId)
-        {
-            var result = _customerService.GetCustomerByUserId(userId);
-            if(result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
         [HttpPost("update")]
-        public IActionResult Update(CustomerDto customerDto)
+        public IActionResult Update(OperationClaim operationClaim)
         {
-            var result = _customerService.Update(customerDto);
+            var result = (_operationClaimService.Update(operationClaim));
             if (result.Success)
             {
                 return Ok(result);
@@ -62,9 +62,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(CustomerDto customerDto)
+        public IActionResult Delete(OperationClaim operationClaim)
         {
-            var result = _customerService.Delete(customerDto);
+            var result = _operationClaimService.Delete(operationClaim);
             if (result.Success)
             {
                 return Ok(result);

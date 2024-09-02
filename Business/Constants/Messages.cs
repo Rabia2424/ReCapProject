@@ -55,5 +55,12 @@ namespace Business.Constants
         public static string PaymentDenied = "Payment denied!";
         public static string UserPasswordUpdated = "User password updated successfully!";
         public static string UserUpdated = "User updated successfully!";
+        public static string CustomerNotFound = "Customer not found by user Id!";
+        public static string OperationClaimAdded = "Operation claim added successfully!";
+        public static string OperationClaimUpdated = "Operation claim updated successfully!";
+        public static string OperationClaimDeleted = "Operation claim deleted successfully!";
+        public static string UserOperationClaimAdded = "User operation claim added successfully!";
+        public static string UserOperationClaimUpdated = "User operation claim updated successfully!";
+        public static string UserOperationClaimDeleted = "User operation claim deleted successfully!";
     }
 }

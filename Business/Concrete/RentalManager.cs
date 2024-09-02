@@ -43,7 +43,7 @@ namespace Business.Concrete
                 CheckIfReturnDateIsBeforeRentDate(rental.RentDate, rental.ReturnDate),
                 CheckIfThisCarIsAlreadyRentedInSelectedDateRange(rental)
                 );
-            if(result != null)
+            if (result != null)
             {
                 return result;
             }
@@ -62,7 +62,7 @@ namespace Business.Concrete
 
         public IResult Delete(Rental rental)
         {
-            if(rental is null)
+            if (rental is null)
             {
                 return new ErrorResult(Messages.RentalNotDeleted);
             }
@@ -93,26 +93,27 @@ namespace Business.Concrete
 
         private IResult CheckIfThisCarIsAlreadyRentedInSelectedDateRange(Rental rental)
         {
-            var result = _rentalDal.Get(r => r.CarId == rental.CarId && r.CustomerId == rental.CustomerId);
-            if (result != null) {
-                if (result.RentDate.Date < rental.RentDate.Date
-                && result.ReturnDate != null
-                && ((DateTime)result.ReturnDate).Date < rental.RentDate.Date)
+            var results = _rentalDal.GetAll(r => r.CarId == rental.CarId);
+            if (results != null)
+            {
+                foreach (var result in results)
                 {
-                    return new SuccessResult();
+                    if (rental.RentDate < result.RentDate
+                || result.ReturnDate == null
+                || rental.RentDate < result.ReturnDate)
+                    {
+                        return new ErrorResult(Messages.ThisCarIsAlreadyRentedInSelectedDateRange);
+                    }
                 }
-                return new ErrorResult(Messages.ThisCarIsAlreadyRentedInSelectedDateRange);
             }
-            else { return new SuccessResult(); }
-            
-
+            return new SuccessResult(); 
         }
 
-        private IResult CheckIfReturnDateIsBeforeRentDate(DateTime rentDate,DateTime? returnDate)
+        private IResult CheckIfReturnDateIsBeforeRentDate(DateTime rentDate, DateTime? returnDate)
         {
-            if(returnDate.HasValue)
+            if (returnDate.HasValue)
             {
-                if(((DateTime)returnDate).Date < rentDate.Date)
+                if (((DateTime)returnDate).Date < rentDate.Date)
                 {
                     return new ErrorResult(Messages.ReturnDateIsBeforeRentDate);
                 }

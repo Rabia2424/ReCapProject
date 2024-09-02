@@ -19,8 +19,8 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c => c.DailyPrice).NotEmpty();
             RuleFor(c => c.DailyPrice).GreaterThan(0);
 
-            RuleFor(c => c.Description).MinimumLength(5);
-            RuleFor(c => c.Description).MaximumLength(200);
+            RuleFor(c => c.Description).MinimumLength(20);
+            RuleFor(c => c.Description).MaximumLength(2000).WithMessage("Car description must be at most 200 characters long.");
         }
     }
 }
