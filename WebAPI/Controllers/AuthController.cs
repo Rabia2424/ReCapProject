@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("register")]
-        public IActionResult Register(UserForRegisterDto userForRegisterDto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             var userExists = _authService.UserExistsControlForRegister(userForRegisterDto.Email);
             if (!userExists.Success)
@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
                 return BadRequest(userExists.Message);
             }
 
-            var userToRegister = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            var userToRegister = await _authService.Register(userForRegisterDto, userForRegisterDto.Password);
             //var findUser = _userService.GetByEmail(userForRegisterDto.Email);
 
             var result = _authService.CreateAccessToken(userToRegister.Data);

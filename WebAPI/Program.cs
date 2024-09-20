@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using Business.AutoMappers;
 using Microsoft.Extensions.FileProviders;
 using Autofac.Core;
+using Newtonsoft.Json;
+using System.Net;
 
 
 
@@ -35,7 +37,17 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 });
 //builder.Services.AddSingleton<ICarService, CarManager>();
 //builder.Services.AddSingleton<ICarDal, EfCarDal>();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        policyBuilder =>
+        {
+            policyBuilder.WithOrigins("http://localhost:4200") // Ýzin verilen frontend URL
+                         .AllowAnyHeader()
+                         .AllowAnyMethod()
+                         .AllowCredentials(); // Kimlik bilgilerini dahil etme
+        });
+});
 
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(CustomerProfile));
@@ -56,10 +68,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero, // Token süresi dolduktan sonra hemen geçersiz olsun
             ValidIssuer = tokenOptions.Issuer,
             ValidAudience = tokenOptions.Audience,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+        };
+
+        // Hatalarý middleware'e göndermek için:
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                {
+                    context.Response.Headers.Add("Token-Expired", "true");
+                }
+                return Task.CompletedTask;
+            }
         };
     });
 
@@ -78,7 +104,7 @@ if (app.Environment.IsDevelopment())
 
 app.ConfigureCustomExceptionMiddleware();
 
-app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+app.UseCors("AllowSpecificOrigin"); // CORS politikasýný uygulama
 
 app.UseStaticFiles();
 

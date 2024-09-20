@@ -20,11 +20,17 @@ namespace Business.Concrete
     {
         private IUserService _userService;
         private ITokenHelper _tokenHelper;
+        private TokenGenerator _tokenGenerator;
+        private TokenService _tokenService;
+        private EmailService _emailService;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, TokenGenerator tokenGenerator, TokenService tokenService, EmailService emailService)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _tokenGenerator = tokenGenerator;
+            _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
@@ -50,7 +56,7 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck.Data, Messages.SuccessfullLogin);
         }
 
-        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
+        public async Task<IDataResult<User>> Register(UserForRegisterDto userForRegisterDto, string password)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(userForRegisterDto.Password, out passwordHash, out passwordSalt);
@@ -65,6 +71,11 @@ namespace Business.Concrete
                 Status = true
             };
             _userService.Add(user);
+
+            var token = _tokenGenerator.GenerateToken();
+            _tokenService.SaveToken(user.Id, token, DateTime.UtcNow.AddHours(24));
+            await _emailService.SendVerificationEmail(user.Email, token);
+
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 
@@ -108,5 +119,7 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
     }
+
 }

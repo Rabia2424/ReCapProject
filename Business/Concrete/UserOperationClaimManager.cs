@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,14 +33,19 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserOperationClaimDeleted);
         }
 
-        public IDataResult<List<UserOperationClaim>> GetAll()
+        public IDataResult<List<UserOperationClaim>> GetAllUserClaims()
         {
             return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll());
         }
 
-        public IDataResult<UserOperationClaim> GetById(int userOperationClaimId)
+        public IDataResult<List<UserOperationClaimDto>> GetAllUserClaimsWithDetails()
         {
-            return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(u=>u.Id == userOperationClaimId));
+            return new SuccessDataResult<List<UserOperationClaimDto>>(_userOperationClaimDal.GetAllUserClaimsWithDetails());
+        }
+
+        public IDataResult<List<UserOperationClaim>> GetByUserId(int userId)
+        {
+            return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll(u=>u.UserId == userId));
         }
 
         public IResult Update(UserOperationClaim userOperationClaim)

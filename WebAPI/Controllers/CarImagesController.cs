@@ -2,6 +2,7 @@
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace WebAPI.Controllers
 {
@@ -50,9 +51,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add([FromForm] IFormFile file, [FromForm] CarImages carImage)
+        public IActionResult Add([FromForm] IFormFile file, [FromForm] string carImage)
         {
-            var result = _carImagesService.Add(file, carImage);
+            var carImageModel = JsonConvert.DeserializeObject<CarImages>(carImage);
+            var result = _carImagesService.Add(file, carImageModel);
             if (result.Success)
             {
                 return Ok(result);
@@ -61,9 +63,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update([FromForm] IFormFile file, [FromForm] CarImages carImage)
+        public IActionResult Update([FromForm] IFormFile file, [FromForm] string carImage)
         {
-            var result = _carImagesService.Update(file, carImage);
+            var carImageModel = JsonConvert.DeserializeObject<CarImages>(carImage);
+            var result = _carImagesService.Update(file, carImageModel);
             if (result.Success)
             {
                 return Ok(result);

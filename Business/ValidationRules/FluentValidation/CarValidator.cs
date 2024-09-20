@@ -17,10 +17,10 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c => c.CarName).MinimumLength(2).WithMessage(Messages.CarNotAdded);
 
             RuleFor(c => c.DailyPrice).NotEmpty();
-            RuleFor(c => c.DailyPrice).GreaterThan(0);
+            RuleFor(c => c.DailyPrice).GreaterThan(7000);
 
             RuleFor(c => c.Description).MinimumLength(20);
-            RuleFor(c => c.Description).MaximumLength(2000).WithMessage("Car description must be at most 200 characters long.");
+            RuleFor(c => c.Description).MaximumLength(800).WithMessage("Car description must be at most 800 characters long.");
         }
     }
 }

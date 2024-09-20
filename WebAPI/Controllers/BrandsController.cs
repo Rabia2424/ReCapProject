@@ -27,6 +27,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("add")]
+        public IActionResult Add(Brand brand)
+        {
+            var result = _brandService.Add(brand);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -38,16 +49,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
-        public IActionResult Add(Brand brand)
-        {
-            var result = _brandService.Add(brand);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
+        
 
         [HttpPost("update")]
         public IActionResult Update(Brand brand)

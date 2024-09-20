@@ -39,7 +39,7 @@ namespace Business.Constants
         public static string CarImagesAdded = "Car Image added successfully!";
         public static string CarImageUpdated = "Car Image updated successfully!";
         public static string AccessTokenCreated = "Access token is created successfully!";
-        public static string UserNotFound = "User can not be found!";
+        public static string UserNotFound = "User can not be found by this email!";
         public static string PasswordError = "Password is not verified!";
         public static string SuccessfullLogin = "User login successfully!";
         public static string UserRegistered = "User registered!";
@@ -52,7 +52,7 @@ namespace Business.Constants
         public static string PaymentPageAvailable = "You are going to shopping cart page!";
         public static string ThisCardIsAlreadySaved = "This cart is already saved for this customer!";
         public static string PaymentSuccessfull = "Payment completed successfully!";
-        public static string PaymentDenied = "Payment denied!";
+        public static string PaymentDenied = "Payment denied, there is no saved card!";
         public static string UserPasswordUpdated = "User password updated successfully!";
         public static string UserUpdated = "User updated successfully!";
         public static string CustomerNotFound = "Customer not found by user Id!";
@@ -62,5 +62,7 @@ namespace Business.Constants
         public static string UserOperationClaimAdded = "User operation claim added successfully!";
         public static string UserOperationClaimUpdated = "User operation claim updated successfully!";
         public static string UserOperationClaimDeleted = "User operation claim deleted successfully!";
+        public static string CarNotFoundInThisInterval = "Car not found in this price interval!";
+        public static string SaveCardNotFound = "Save card not found for this customer!";
     }
 }

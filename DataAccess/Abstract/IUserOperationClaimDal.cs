@@ -1,5 +1,7 @@
 ﻿using Core.DataAccess;
 using Core.Entities.Concrete;
+using Core.Utilities.Results;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +12,6 @@ namespace DataAccess.Abstract
 {
     public interface IUserOperationClaimDal:IEntityRepository<UserOperationClaim>
     {
+        List<UserOperationClaimDto> GetAllUserClaimsWithDetails();
     }
 }

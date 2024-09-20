@@ -26,6 +26,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(PaymentValidator))]
         public IResult Add(Payment payment)
         {
+            
             _paymentDal.Add(payment);
             return new SuccessResult();
         }
@@ -57,6 +58,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Payment>>(result);
         }
 
+        public IDataResult<List<Payment>> GetAllSavedCardsByCustomer(int customerId)
+        {
+            var result = _paymentDal.GetAll(p => p.CustomerId == customerId);
+            if (!result.Any())
+            {
+                return new ErrorDataResult<List<Payment>>(Messages.SaveCardNotFound);
+            }
+            return new SuccessDataResult<List<Payment>>(result);
+        }
+
         public IDataResult<Payment> GetById(int id)
         {
             var result = _paymentDal.Get(p=>p.PaymentId == id);
@@ -64,16 +75,12 @@ namespace Business.Concrete
         }
 
         //[TransactionScopeAspect]
-        [ValidationAspect(typeof(PaymentValidator))]
-        public IResult Pay(Payment payment)
+        //[ValidationAspect(typeof(PaymentValidator))]
+        public IResult Pay(int customerId)
         {
-            var result = _paymentDal.Get(p=>
-            p.FullName == payment.FullName
-            && p.CardNumber == payment.CardNumber
-            && p.Expiry == payment.Expiry
-            && p.CVV == payment.CVV);
+            var result = _paymentDal.GetAll(p=>p.CustomerId == customerId);    
 
-            if (result != null)
+            if (result.Any())
             {
                 return new SuccessResult(Messages.PaymentSuccessfull);
             }

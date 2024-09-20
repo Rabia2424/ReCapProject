@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -21,6 +22,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
@@ -42,6 +44,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandDeleted);
         }
 
+        
         public IDataResult<List<Brand>> GetAll()
         {
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());

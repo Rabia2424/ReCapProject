@@ -12,7 +12,7 @@ namespace Business.Abstract
 {
     public interface IAuthService
     {
-        IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password);
+        Task<IDataResult<User>> Register(UserForRegisterDto userForRegisterDto, string password);
         IDataResult<User> Login(UserForLoginDto userForLoginDto);
         IDataResult<User> UpdatePassword(UserForPasswordDto userForPasswordDto, string password);
         IResult UserExistsControlForRegister(string email);

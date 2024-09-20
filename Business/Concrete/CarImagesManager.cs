@@ -103,9 +103,10 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarImageNotFound);
             }
 
-            if (File.Exists(imageToDelete.ImagePath))
+            string fullPath = Path.Combine("wwwroot", imageToDelete.ImagePath.TrimStart('\\'));
+            if (File.Exists(fullPath))
             {
-                File.Delete(imageToDelete.ImagePath);
+                File.Delete(fullPath);
                 _carImagesDal.Delete(imageToDelete);
                 return new SuccessResult(Messages.CarImagesDeleted);
             }

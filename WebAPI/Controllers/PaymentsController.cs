@@ -93,10 +93,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("pay")]
-        public IActionResult Pay(Payment payment)
+        [HttpGet("pay")]
+        public IActionResult Pay(int customerId)
         {
-            var result = _paymentService.Pay(payment);
+            var result = _paymentService.Pay(customerId);
             if (result.Success)
             {
                 return Ok(result);

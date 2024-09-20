@@ -55,6 +55,13 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<UserOperationClaimManager>().As<IUserOperationClaimService>().SingleInstance();
             builder.RegisterType<EfUserOperationClaimDal>().As<IUserOperationClaimDal>().SingleInstance();
 
+            builder.RegisterType<EfEmailVerificationDal>().As<IEmailVerificationDal>().SingleInstance();
+
+            builder.RegisterType<TokenGenerator>().AsSelf();
+            builder.RegisterType<TokenService>().AsSelf();
+            builder.RegisterType<EmailService>().AsSelf();
+            builder.RegisterType<EmailVerificationService>().AsSelf();
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()

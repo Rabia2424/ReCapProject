@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _userOperationClaimService.GetAll();
+            var result = _userOperationClaimService.GetAllUserClaims();
             if (result.Success)
             {
                 return Ok(result);
@@ -27,10 +27,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpGet("getalluserclaimwithdetails")]
+        public IActionResult GetAllUserClaimsWithDetails()
         {
-            var result = _userOperationClaimService.GetById(id);
+            var result = _userOperationClaimService.GetAllUserClaimsWithDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyuserid")]
+        public IActionResult GetByUserId(int userId)
+        {
+            var result = _userOperationClaimService.GetByUserId(userId);
             if (result.Success)
             {
                 return Ok(result);

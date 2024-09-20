@@ -95,7 +95,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = c.DailyPrice,
                                  ModelYear = c.ModelYear,
                                  Description = c.Description,
-                                 ImagePath = (from ci in context.CarImages where c.CarId == ci.CarId select ci.ImagePath).Take(2).ToArray()
+                                 ImagePath = (from ci in context.CarImages where c.CarId == ci.CarId select ci.ImagePath).ToArray()
                              };
 
                 return filter == null

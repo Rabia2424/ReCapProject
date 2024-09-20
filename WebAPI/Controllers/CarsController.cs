@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcarsbybrandid")]
-        public IActionResult GetByBrandId(int id)
+        public IActionResult GetCarsByBrandId(int id)
         {
             var result = _carService.GetCarsByBrandId(id);
             if (result.Success)
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcarsbycolorid")]
-        public IActionResult GetByColorId(int id)
+        public IActionResult GetCarsByColorId(int id)
         {
             var result = _carService.GetCarsByColorId(id);
             if (result.Success)
@@ -71,6 +71,16 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getcarsbyminandmaxprice")]
+        public IActionResult GetCarsByMinAndMaxPrice(int? minPrice,int? maxPrice)
+        {
+            var result = _carService.GetCarsByMinAndMaxPrice(minPrice,maxPrice);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
         [HttpGet("getcardetails")]
         public IActionResult GetCarDetails()

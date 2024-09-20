@@ -100,7 +100,7 @@ namespace Business.Concrete
                 {
                     if (rental.RentDate < result.RentDate
                 || result.ReturnDate == null
-                || rental.RentDate < result.ReturnDate)
+                || rental.RentDate <= result.ReturnDate)
                     {
                         return new ErrorResult(Messages.ThisCarIsAlreadyRentedInSelectedDateRange);
                     }
@@ -130,5 +130,6 @@ namespace Business.Concrete
             }
             return new ErrorDataResult<List<Rental>>("There is no rental information");
         }
+
     }
 }

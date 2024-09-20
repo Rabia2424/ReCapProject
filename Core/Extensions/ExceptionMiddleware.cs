@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +34,25 @@ namespace Core.Extensions
 
         private Task HandleExceptionAsync(HttpContext httpContext, Exception e)
         {
+            Console.WriteLine($"Exception caught: {e.GetType().Name}");
+
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             string message = "Internal Server Error";
-            IEnumerable<ValidationFailure> errors;
+            IEnumerable<FluentValidation.Results.ValidationFailure> errors;
+
+            // Token süresi dolmuşsa yakala ve 401 Unauthorized yap
+            if (httpContext.Response.Headers.ContainsKey("Token-Expired")) // JWT token süresi dolmuşsa
+            {
+                httpContext.Response.StatusCode = 401;
+                message = "Token expired. Please log in again.";
+                return httpContext.Response.WriteAsync(new ErrorDetails
+                {
+                    StatusCode = 401,
+                    Message = message
+                }.ToString());
+            }
             if (e.GetType() == typeof(ValidationException))
             {
                 message = e.Message;
@@ -51,6 +66,7 @@ namespace Core.Extensions
                     Errors = errors 
                 }.ToString());
             }
+           
 
             return httpContext.Response.WriteAsync(new ErrorDetails
             {

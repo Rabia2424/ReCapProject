@@ -10,6 +10,7 @@ using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -89,7 +90,6 @@ namespace Business.Concrete
             {
                 throw new Exception("");
             }
-            Add(car);
 
             return null;
         }
@@ -117,6 +117,29 @@ namespace Business.Concrete
                 return new ErrorDataResult<CarDetailDto>();
             }
             return new SuccessDataResult<CarDetailDto>(result.FirstOrDefault());
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsByMinAndMaxPrice(int? minPrice, int? maxPrice)
+        {
+            
+            var query = GetCarDetails().Data.AsQueryable();
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(c => c.DailyPrice >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(c => c.DailyPrice <= maxPrice.Value);
+            }
+
+            var filteredCars = query.ToList();
+            if (!filteredCars.Any())
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.CarNotFoundInThisInterval);
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(filteredCars);
         }
     }
 }
